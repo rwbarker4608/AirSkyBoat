@@ -14,19 +14,21 @@ xi = xi or {}
 
 xi.zoneMisc =
 {
-    NONE       = 0x0000, -- Able to be used in any area
-    ESCAPE     = 0x0001, -- Ability to use Escape Spell
-    FELLOW     = 0x0002, -- Ability to summon Fellow NPC
-    MOUNT      = 0x0004, -- Ability to use Chocobos and mounts
-    MAZURKA    = 0x0008, -- Ability to use Mazurka Spell
-    TRACTOR    = 0x0010, -- Ability to use Tractor Spell
-    MOGMENU    = 0x0020, -- Ability to communicate with Nomad Moogle (menu access mog house)
-    COSTUME    = 0x0040, -- Ability to use a Costumes
-    PET        = 0x0080, -- Ability to summon Pets
-    TREASURE   = 0x0100, -- Presence in the global zone TreasurePool
-    AH         = 0x0200, -- Ability to use the auction house
-    YELL       = 0x0400, -- Send and receive /yell commands
-    TRUST      = 0x0800, -- Ability to cast trust magic
+    NONE                  = 0x0000, -- Able to be used in any area
+    ESCAPE                = 0x0001, -- Ability to use Escape Spell
+    FELLOW                = 0x0002, -- Ability to summon Fellow NPC
+    MOUNT                 = 0x0004, -- Ability to use Chocobos and mounts
+    MAZURKA               = 0x0008, -- Ability to use Mazurka Spell
+    TRACTOR               = 0x0010, -- Ability to use Tractor Spell
+    MOGMENU               = 0x0020, -- Ability to communicate with Nomad Moogle (menu access mog house)
+    COSTUME               = 0x0040, -- Ability to use a Costumes
+    PET                   = 0x0080, -- Ability to summon Pets
+    TREASURE              = 0x0100, -- Presence in the global zone TreasurePool
+    AH                    = 0x0200, -- Ability to use the auction house
+    YELL                  = 0x0400, -- Send and receive /yell commands
+    TRUST                 = 0x0800, -- Ability to cast trust magic
+    MISC_LOS_PLAYER_BLOCK = 0x1000, -- Players can't use magic/JAs through walls if this is set
+    MISC_LOS_OFF          = 0x2000, -- Zone should not have LoS checks
 }
 
 -----------------------------------
@@ -1173,7 +1175,7 @@ xi.mod =
     DEMON_KILLER                    = 234,
     EMPTY_KILLER                    = 235,
     HUMANOID_KILLER                 = 236,
-    LUMORIAN_KILLER                 = 237,
+    LUMINIAN_KILLER                 = 237,
     LUMINION_KILLER                 = 238,
     WYRMAL_ABJ_KILLER_EFFECT        = 1178, -- Wyrmal Abjuration (Crimson/Blood) which makes players susceptible to Dragon Killer effects
     SLEEPRES                        = 240,
@@ -1799,6 +1801,7 @@ xi.mod =
     BLUE_MAGIC_EFFECT       = 1059, -- TODO: Bonus to Attribute Value of spell (percent)
     QUICK_DRAW_RECAST       = 1060, -- TODO: Quick Draw Charge Reduction (seconds)
 
+    BREATH_DMG_DEALT        = 1075, -- Breath damage dealt
     -- Permanent Resistance Build Modifiers
     SLEEPRESBUILD                 = 1138, -- Used to create a resbuild for the appropriate effect. Will decrease overall duration of effect. (Out of 1000)
     POISONRESBUILD                = 1139, -- Used to create a resbuild for the appropriate effect. Will decrease overall duration of effect. (Out of 1000)
@@ -2940,7 +2943,7 @@ xi.ecosystem =
     EMPTY          = 12,
     HUMANOID       = 13,
     LIZARD         = 14,
-    LUMORIAN       = 15,
+    LUMINIAN       = 15,
     LUMINION       = 16,
     PLANTOID       = 17,
     UNCLASSIFIED   = 18,
