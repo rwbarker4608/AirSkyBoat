@@ -12,7 +12,6 @@
 -- For status effects is it possible to land on highly resistant mobs because of flooring.
 ------------------------------------------------------------------------------
 require("scripts/globals/teleports") -- For warp weapon proc.
-require("scripts/globals/status")
 require("scripts/globals/magic") -- For resist functions
 require("scripts/globals/utils") -- For clamping function
 require("scripts/globals/msg")
@@ -568,7 +567,7 @@ xi.additionalEffect.attack = function(attacker, defender, baseAttackDamage, item
     --   Ex: Plantoid, Beast, Aquatic
     --------------------------------------
     elseif addType == xi.additionalEffect.procType.VS_ECOSYSTEM then
-        if defender:getSystem() == option then
+        if defender:getEcosystem() == option then
             -- If Drain effect:
             if subEffect == xi.subEffect.HP_DRAIN then
                 damage = xi.additionalEffect.calcDamage(attacker, element, defender, damage, addType, item)

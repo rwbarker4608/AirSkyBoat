@@ -891,6 +891,13 @@ void CZoneEntities::SpawnPCs(CCharEntity* PChar)
 void CZoneEntities::SpawnMoogle(CCharEntity* PChar)
 {
     TracyZoneScoped;
+
+    // If on Moghouse2F; don't spawn the Moogle
+    if (PChar->profile.mhflag & 0x40)
+    {
+        return;
+    }
+
     for (EntityList_t::const_iterator it = m_npcList.begin(); it != m_npcList.end(); ++it)
     {
         CNpcEntity* PCurrentNpc = (CNpcEntity*)it->second;
@@ -1407,7 +1414,7 @@ void CZoneEntities::WideScan(CCharEntity* PChar, uint16 radius)
     PChar->pushPacket(new CWideScanPacket(WIDESCAN_END));
 }
 
-void CZoneEntities::ZoneServer(time_point tick, bool check_trigger_areas)
+void CZoneEntities::ZoneServer(time_point tick)
 {
     TracyZoneScoped;
     TracyZoneString(m_zone->GetName());
@@ -1641,10 +1648,6 @@ void CZoneEntities::ZoneServer(time_point tick, bool check_trigger_areas)
             }
             PChar->PAI->Tick(tick);
             PChar->PTreasurePool->CheckItems(tick);
-            if (check_trigger_areas)
-            {
-                m_zone->CheckTriggerAreas(PChar);
-            }
         }
     }
 

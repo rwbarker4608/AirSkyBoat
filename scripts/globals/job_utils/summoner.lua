@@ -2,7 +2,6 @@
 -- Summoner Job Utilities
 -----------------------------------
 require("scripts/globals/ability")
-require("scripts/globals/status")
 require("scripts/globals/msg")
 require("scripts/globals/jobpoints")
 require("scripts/globals/damage/tp")
@@ -123,5 +122,17 @@ xi.job_utils.summoner.calculateTPReturn = function(avatar, target, damage, numHi
         avatar:setTP(tpReturn)
     else
         avatar:setTP(0)
+    end
+end
+
+xi.job_utils.summoner.useManaCede = function(player)
+    -- TODO: Animation needs to be performed on the avatar, not the player.
+    local avatar  = player:getPet()
+
+    if avatar ~= nil then
+        local avatarTP = avatar:getTP()
+        local avatarNewTP = utils.clamp(avatarTP + 1000, 1000, 3000)
+        avatar:setTP(avatarNewTP)
+        player:delMP(100)
     end
 end

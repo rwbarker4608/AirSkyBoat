@@ -100,10 +100,10 @@ public:
     bool didGetMessage();                // Used by interaction framework to determine if player triggered something else
     void resetGotMessage();              // Used by interaction framework to reset if player triggered something else
 
-    void  setFlag(uint32 flags);
-    uint8 getMoghouseFlag();
-    void  setMoghouseFlag(uint8 flag);
-    bool  needToZone(sol::object const& arg0); // Check if player has zoned since the flag has been raised
+    void   setFlag(uint32 flags);
+    uint16 getMoghouseFlag();
+    void   setMoghouseFlag(uint16 flag);
+    bool   needToZone(sol::object const& arg0); // Check if player has zoned since the flag has been raised
 
     // Object Identification
     uint32 getID();
@@ -410,6 +410,7 @@ public:
     uint8  getJobPointLevel(uint16 jpType); // Returns Value of Job Point Type
     void   setJobPoints(uint16 amount);     // Set Job Points for current job
     void   setCapacityPoints(uint16 amount);
+    void   masterJob();
 
     uint32 getGil();
     void   addGil(int32 gil);
@@ -787,7 +788,7 @@ public:
 
     // Mob Entity-Specific
     void   setMobLevel(uint8 level);
-    uint8  getSystem(); // TODO: rename this to getEcosystem()
+    uint8  getEcosystem();
     uint16 getSuperFamily();
     uint16 getFamily();
     bool   isMobType(uint8 mobType); // True if mob is of type passed to function
@@ -855,10 +856,10 @@ public:
 
     bool actionQueueEmpty(); // returns whether the action queue is empty or not
 
-    void  castSpell(sol::object const& spell, sol::object entity);                                                                                                       // forces a mob to cast a spell (parameter = spell ID, otherwise picks a spell from its list)
-    void  useJobAbility(uint16 skillID, sol::object const& pet);                                                                                                         // forces a job ability use (players/pets only)
-    void  useMobAbility(sol::variadic_args va);                                                                                                                          // forces a mob to use a mobability (parameter = skill ID)
-    int32 triggerDrawIn(CLuaBaseEntity* PMobEntity, sol::object const& includePt, sol::object const& drawRange, sol::object const& maxReach, sol::object const& target); // forces a mob to draw in target
+    void  castSpell(sol::object const& spell, sol::object entity);                                                                                                                                           // forces a mob to cast a spell (parameter = spell ID, otherwise picks a spell from its list)
+    void  useJobAbility(uint16 skillID, sol::object const& pet);                                                                                                                                             // forces a job ability use (players/pets only)
+    void  useMobAbility(sol::variadic_args va);                                                                                                                                                              // forces a mob to use a mobability (parameter = skill ID)
+    int32 triggerDrawIn(CLuaBaseEntity* PMobEntity, sol::object const& includePt, sol::object const& drawRange, sol::object const& maxReach, sol::object const& target, sol::object const& incDeadAndMount); // forces a mob to draw in target
     bool  hasTPMoves();
 
     void weaknessTrigger(uint8 level);
@@ -925,6 +926,9 @@ public:
     void   giveContestReward(uint16 contestId);
     auto   getAwardHistory() -> sol::table;
     void   faceTarget(CLuaBaseEntity* npc);
+
+    void addPacketMod(uint16 packetId, uint16 offset, uint8 value);
+    void clearPacketMods();
 
     static void Register();
 };

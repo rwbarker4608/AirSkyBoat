@@ -4,7 +4,6 @@
 require("scripts/globals/spell_data")
 require("scripts/globals/keyitems")
 require("scripts/globals/quests")
-require("scripts/globals/status")
 require("scripts/globals/utils")
 require("scripts/globals/weaponskillids")
 require("scripts/globals/zone")
@@ -711,6 +710,10 @@ xi.abyssea.canGiveNMKI = function(mob, dropChance)
 end
 
 xi.abyssea.giveNMDrops = function(mob, player, ID)
+    if not xi.abyssea.mob[mob:getName()] then
+        return
+    end
+
     local atmaDrops = xi.abyssea.mob[mob:getName()]['Atma']
     local normalDrops = xi.abyssea.mob[mob:getName()]['Normal']
     local playerClaimed = GetPlayerByID(mob:getLocalVar("[ClaimedBy]"))

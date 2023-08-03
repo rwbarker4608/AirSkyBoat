@@ -2,9 +2,9 @@
 -- Dark Knight Job Utilities
 -----------------------------------
 require('scripts/globals/items')
-require("scripts/globals/settings")
-require("scripts/globals/status")
 require("scripts/globals/msg")
+require("scripts/globals/utils")
+require("scripts/globals/settings")
 -----------------------------------
 xi = xi or {}
 xi.job_utils = xi.job_utils or {}
@@ -14,7 +14,7 @@ xi.job_utils.dark_knight = xi.job_utils.dark_knight or {}
 -- Ability Check Functions
 -----------------------------------
 xi.job_utils.dark_knight.checkArcaneCrest = function(player, target, ability)
-    local ecosystem = target:getSystem()
+    local ecosystem = target:getEcosystem()
 
     if ecosystem == xi.ecosystem.ARCANA then
         return 0, 0

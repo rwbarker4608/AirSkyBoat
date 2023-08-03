@@ -25,6 +25,7 @@
 #include "common/cbasetypes.h"
 #include "common/mmo.h"
 #include "common/taskmgr.h"
+#include "common/vana_time.h"
 #include "common/xirand.h"
 
 #include <list>
@@ -234,7 +235,7 @@ enum ZONEID : uint16
     ZONE_DYNAMIS_BASTOK                 = 186,
     ZONE_DYNAMIS_WINDURST               = 187,
     ZONE_DYNAMIS_JEUNO                  = 188,
-    ZONE_189                            = 189, // Southern San d'Oria [S] Residential Area
+    ZONE_189                            = 189,
     ZONE_KING_RANPERRES_TOMB            = 190,
     ZONE_DANGRUF_WADI                   = 191,
     ZONE_INNER_HORUTOTO_RUINS           = 192,
@@ -244,7 +245,7 @@ enum ZONEID : uint16
     ZONE_GUSGEN_MINES                   = 196,
     ZONE_CRAWLERS_NEST                  = 197,
     ZONE_MAZE_OF_SHAKHRAMI              = 198,
-    ZONE_199                            = 199, // Bastok Markets [S] Residential Area
+    ZONE_199                            = 199,
     ZONE_GARLAIGE_CITADEL               = 200,
     ZONE_CLOISTER_OF_GALES              = 201,
     ZONE_CLOISTER_OF_STORMS             = 202,
@@ -259,12 +260,12 @@ enum ZONEID : uint16
     ZONE_CLOISTER_OF_TIDES              = 211,
     ZONE_GUSTAV_TUNNEL                  = 212,
     ZONE_LABYRINTH_OF_ONZOZO            = 213,
-    ZONE_214                            = 214, // Aht Urhgan Residential Area
+    ZONE_214                            = 214,
     ZONE_ABYSSEA_ATTOHWA                = 215,
     ZONE_ABYSSEA_MISAREAUX              = 216,
     ZONE_ABYSSEA_VUNKERL                = 217,
     ZONE_ABYSSEA_ALTEPA                 = 218,
-    ZONE_219                            = 219, // Windurst Waters [S] Residential Area
+    ZONE_219                            = 219,
     ZONE_SHIP_BOUND_FOR_SELBINA         = 220,
     ZONE_SHIP_BOUND_FOR_MHAURA          = 221,
     ZONE_PROVENANCE                     = 222,
@@ -449,6 +450,7 @@ enum class TELEPORT_TYPE : uint8
     HOMEPOINT       = 9,
     SURVIVAL        = 10,
     WAYPOINT        = 11,
+    ESCHAN_PORTAL   = 12,
 };
 
 enum ZONEMISC
@@ -712,13 +714,12 @@ public:
     bool           IsZoneActive() const;
     CZoneEntities* GetZoneEntities();
 
-    time_point      m_TriggerAreaCheckTime;
     weatherVector_t m_WeatherVector; // the probability of each weather type
 
     std::map<uint8, spawnGroup_t> m_SpawnGroups; // Map of spawn groups
 
-    virtual void ZoneServer(time_point tick, bool checkTriggerAreas);
-    void         CheckTriggerAreas(CCharEntity* PChar);
+    virtual void ZoneServer(time_point tick);
+    void         CheckTriggerAreas();
 
     virtual void ForEachChar(std::function<void(CCharEntity*)> func);
     virtual void ForEachCharInstance(CBaseEntity* PEntity, std::function<void(CCharEntity*)> func);
@@ -781,9 +782,9 @@ private:
     triggerAreaList_t m_triggerAreaList;
     zoneLineList_t    m_zoneLineList;
 
-    void LoadZoneSettings();
-    void LoadZoneLines();
-    void LoadZoneWeather();
+    void LoadZoneLines();    // список zonelines (можно было бы заменить этот метод методом InsertZoneLine)
+    void LoadZoneWeather();  // погода
+    void LoadZoneSettings(); // настройки зоны
 
     CTreasurePool* m_TreasurePool;
 
@@ -799,9 +800,10 @@ private:
     std::unordered_map<std::string, QueryByNameResult_t> m_queryByNameResults;
 
 protected:
-    CTaskMgr::CTask* ZoneTimer; // The pointer to the created timer is Zoneserver.necessary for the possibility of stopping it
+    CTaskMgr::CTask* ZoneTimer;             // The pointer to the created timer is Zoneserver.necessary for the possibility of stopping it
+    CTaskMgr::CTask* ZoneTimerTriggerAreas; //
 
-    void createZoneTimer();
+    void createZoneTimers();
     void CharZoneIn(CCharEntity* PChar);
     void CharZoneOut(CCharEntity* PChar);
 
